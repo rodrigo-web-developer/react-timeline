@@ -1,0 +1,6 @@
+
+.horizontalScroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 12px 0;
+}

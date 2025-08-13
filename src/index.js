@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import timelineItems from "./timelineItems.js";
 import Timeline from "./components/Timeline/";
 import Modal from "./components/Modal/";
+import { Scrollable } from "./components/Layout/index.jsx";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
   const addTimelineItem = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    
+
     const item = {
       id: Date.now(),
       name: formData.get("name"),
@@ -25,15 +26,15 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app">
       <h2>See the timeline below! {"\u2728"}</h2>
       <h3>{currentItems.length} timeline items to render</h3>
 
       <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
 
-      <div className="horizontal-scroll">
+      <Scrollable>
         <Timeline items={currentItems} />
-      </div>
+      </Scrollable>
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>
         <form onSubmit={addTimelineItem}>

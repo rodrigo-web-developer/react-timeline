@@ -91,13 +91,9 @@ export function TimelineHeader({ items, min, max, totalDays }) {
 export function TimelineItem({ item, style, formatDate, styles, onChangeName }) {
     const [editing, setEditing] = useState(false);
 
-    const [name, setName] = useState(item.name);
-
     const itemRef = useRef();
 
     const handleDoubleClick = useCallback(() => setEditing(true), []);
-
-    const handleChange = (e) => setName(e.target.value);
 
     const handleBlur = () => {
         setEditing(false);
@@ -106,6 +102,7 @@ export function TimelineItem({ item, style, formatDate, styles, onChangeName }) 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             setEditing(false);
+            onChangeName(e.target.value);
         }
     };
 
@@ -130,15 +127,14 @@ export function TimelineItem({ item, style, formatDate, styles, onChangeName }) 
             {editing ? (
                 <input
                     type="text"
-                    value={name}
+                    defaultValue={item.name}
                     autoFocus
-                    onChange={handleChange}
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
                     className={styles.inlineEditInput}
                 />
             ) : (
-                item.name + `#${item.id}`
+                <span>{item.name} #{item.id}</span>
             )}
         </div>
     </div>)

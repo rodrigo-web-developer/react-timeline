@@ -5,13 +5,19 @@ import Timeline from "./components/Timeline/";
 import Modal from "./components/Modal/";
 import { Scrollable } from "./components/Layout/index.jsx";
 
+
+const randomColor = () =>
+  `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0")}`;
+
 /* I'm crazy about performance, so I need to check if many items on the screen will affect rendering */
 const getItems = (times) => {
   const items = [];
   for (let i = 0; i < times; i++) {
+    const iterationColor = randomColor();
     items.push(...timelineItems.map(e => ({
       ...e,
       id: i * 1000 + e.id, // Ensure unique IDs
+      color: iterationColor
     })))
   }
   return items;
@@ -19,7 +25,7 @@ const getItems = (times) => {
 
 function App() {
 
-  const [currentItems, setTimelineItems] = useState(getItems(10));
+  const [currentItems, setTimelineItems] = useState(getItems(50));
   const [addItemOpen, setAddItemOpen] = useState(false);
   
   const [filter, setFilter] = useState("");
@@ -55,7 +61,7 @@ function App() {
   return (
     <div className="app">
       <h2>See the timeline below! {"\u2728"}</h2>
-      <h3>{currentItems.length} timeline items to render</h3>
+      <h3>{showItems.length} timeline items to render</h3>
 
       <div className="row">
         <input type="search" onChange={(e) => setFilter(e.target.value)} name="search" placeholder="Search..." />

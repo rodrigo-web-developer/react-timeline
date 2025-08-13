@@ -14,7 +14,7 @@
    ```
 
 3. **View in browser**  
-   The app will automatically open at [http://localhost:3000](http://localhost:3000).
+   The app will automatically open at [http://localhost:1234](http://localhost:1234).
 
 ## Project Structure
 
@@ -35,7 +35,7 @@ To create this components I try to remember some of the components that I alread
 The components was made with simple query data and structure, but it can be a huge number of items in the timeline, so I need to do a component that has a good performance (which is my main skill).
 
 ### The styles
-Despite the lot of new styles frameworks like Tailwind, styled components, SASS etc, everything in the end is a CSS file, so why do not use it in a simple project like this? I use CSS module because its simple CSS files.
+Despite the lot of new styles frameworks like Tailwind, styled components, SASS etc, everything in the end is a CSS file, so why do not use it in a simple project like this? I use CSS modules because its simple CSS files.
 
 ### Hands on
 I like do create components from scratch and think what I can make the component logic without any libraries help. So I do not use moment/dayjs to format date because I think it will make the build bigger than it needs.

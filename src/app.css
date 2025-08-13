@@ -23,6 +23,12 @@ form {
   gap: 12px;
 }
 
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 input {
   padding: 0.5rem;
   border: 1px solid #ccc;

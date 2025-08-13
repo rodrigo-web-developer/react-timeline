@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ReactDOM from "react-dom/client";
 import timelineItems from "./timelineItems.js";
 import Timeline from "./components/Timeline/";
@@ -21,6 +21,12 @@ function App() {
 
   const [currentItems, setTimelineItems] = useState(getItems(10));
   const [addItemOpen, setAddItemOpen] = useState(false);
+  
+  const [filter, setFilter] = useState("");
+
+  const showItems = useMemo(() => {
+    return currentItems.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()));
+  }, [filter, currentItems]);
 
   const addTimelineItem = (event) => {
     event.preventDefault();
@@ -51,10 +57,13 @@ function App() {
       <h2>See the timeline below! {"\u2728"}</h2>
       <h3>{currentItems.length} timeline items to render</h3>
 
-      <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
+      <div className="row">
+        <input type="search" onChange={(e) => setFilter(e.target.value)} name="search" placeholder="Search..." />
+        <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
+      </div>
 
       <Scrollable>
-        <Timeline items={currentItems} onChangeName={editItemName} />
+        <Timeline items={showItems} onChangeName={editItemName} />
       </Scrollable>
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>

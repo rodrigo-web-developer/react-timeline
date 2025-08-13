@@ -112,7 +112,8 @@ export function TimelineItem({ item, style, formatDate, styles, onChangeName }) 
     useEffect(() => {
         itemRef.current.addEventListener('dblclick', handleDoubleClick);
         return () => {
-            itemRef.current.removeEventListener('dblclick', handleDoubleClick);
+            // add null propagation to not run error when the element disappears
+            itemRef.current?.removeEventListener('dblclick', handleDoubleClick);
         };
     }, [handleDoubleClick])
 

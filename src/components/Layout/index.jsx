@@ -4,11 +4,11 @@ import styles from './index.module.css';
 export const Scrollable = ({ children }) => {
 
     const scrollableRef = useRef(null);
-    
+
     const isDragging = useRef(false);
     const startX = useRef(0);
     const scrollLeft = useRef(0);
-    
+
     useEffect(() => {
         const scrollEl = scrollableRef.current;
         if (!scrollEl) return;
@@ -18,16 +18,19 @@ export const Scrollable = ({ children }) => {
             startX.current = e.pageX - scrollEl.offsetLeft;
             scrollLeft.current = scrollEl.scrollLeft;
             scrollEl.style.cursor = 'grabbing';
+            document.body.style.userSelect = 'none';
         };
 
         const onMouseLeave = () => {
             isDragging.current = false;
             scrollEl.style.cursor = 'grab';
+            document.body.style.userSelect = '';
         };
 
         const onMouseUp = () => {
             isDragging.current = false;
             scrollEl.style.cursor = 'grab';
+            document.body.style.userSelect = '';
         };
 
         const onMouseMove = (e) => {

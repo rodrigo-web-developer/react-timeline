@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import timelineItems from "./timelineItems.js";
 import Timeline from "./components/Timeline/";
@@ -19,8 +19,8 @@ const getItems = (times) => {
 
 function App() {
 
-  const [currentItems, setTimelineItems] = React.useState(getItems(10));
-  const [addItemOpen, setAddItemOpen] = React.useState(false);
+  const [currentItems, setTimelineItems] = useState(getItems(10));
+  const [addItemOpen, setAddItemOpen] = useState(false);
 
   const addTimelineItem = (event) => {
     event.preventDefault();
@@ -38,6 +38,14 @@ function App() {
     setAddItemOpen(false);
   };
 
+  const editItemName = (itemId, itemName) => {
+    setTimelineItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId && itemName ? { ...item, name: itemName } : item
+      )
+    );
+  };
+
   return (
     <div className="app">
       <h2>See the timeline below! {"\u2728"}</h2>
@@ -46,7 +54,7 @@ function App() {
       <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
 
       <Scrollable>
-        <Timeline items={currentItems} />
+        <Timeline items={currentItems} onChangeName={editItemName} />
       </Scrollable>
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>

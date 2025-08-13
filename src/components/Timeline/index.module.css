@@ -73,3 +73,15 @@
   min-height: 100vh;
   background-color: #f3f4f6;
 }
+/* Inline edit input for TimelineItem */
+.inlineEditInput {
+  padding: 2px 6px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  width: 90%;
+  box-sizing: border-box;
+}

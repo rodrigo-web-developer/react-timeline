@@ -1,9 +1,9 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { formatDate, getMaxDate, getMinDate } from '../../utils';
 import { assignLanes } from '../../assignLanes';
 
-const Timeline = memo(({ items }) => {
+const Timeline = memo(({ items, onChangeName }) => {
 
     const sortedItems = useMemo(() => {
         const parsedItems = [...items]
@@ -45,6 +45,7 @@ const Timeline = memo(({ items }) => {
                                 style={position}
                                 formatDate={formatDate}
                                 styles={styles}
+                                onChangeName={(newName) => onChangeName(item.id, newName)}
                             />
                         );
                     })}
@@ -87,8 +88,34 @@ export function TimelineHeader({ items, min, max, totalDays }) {
 }
 
 // TimelineItem component separated for clarity
-export function TimelineItem({ item, style, formatDate, styles }) {
-    
+export function TimelineItem({ item, style, formatDate, styles, onChangeName }) {
+    const [editing, setEditing] = useState(false);
+
+    const [name, setName] = useState(item.name);
+
+    const itemRef = useRef();
+
+    const handleDoubleClick = useCallback(() => setEditing(true), []);
+
+    const handleChange = (e) => setName(e.target.value);
+
+    const handleBlur = () => {
+        setEditing(false);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            setEditing(false);
+        }
+    };
+
+    useEffect(() => {
+        itemRef.current.addEventListener('dblclick', handleDoubleClick);
+        return () => {
+            itemRef.current.removeEventListener('dblclick', handleDoubleClick);
+        };
+    }, [handleDoubleClick])
+
     return (<div
         key={item.id}
         className={styles.timelineItem}
@@ -98,8 +125,20 @@ export function TimelineItem({ item, style, formatDate, styles }) {
         }}
         title={`${item.name}: ${formatDate(item.start)} - ${formatDate(item.end)}`}
     >
-        <div className={styles.itemTitle}>
-            {item.name}
+        <div className={styles.itemTitle} ref={itemRef}>
+            {editing ? (
+                <input
+                    type="text"
+                    value={name}
+                    autoFocus
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onKeyDown={handleKeyDown}
+                    className={styles.inlineEditInput}
+                />
+            ) : (
+                item.name + `#${item.id}`
+            )}
         </div>
     </div>)
 };

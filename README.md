@@ -36,3 +36,6 @@ The components was made with simple query data and structure, but it can be a hu
 
 ### The styles
 Despite the lot of new styles frameworks like Tailwind, styled components, SASS etc, everything in the end is a CSS file, so why do not use it in a simple project like this? I use CSS module because its simple CSS files.
+
+### Hands on
+I like do create components from scratch and think what I can make the component logic without any libraries help. So I do not use moment/dayjs to format date because I think it will make the build bigger than it needs.

@@ -16,10 +16,6 @@ const Timeline = memo(({ items }) => {
     const maxDate = new Date(Math.max(...sortedItems.map(item => item.end.getTime())));
     const totalDays = Math.ceil((maxDate.getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
-    const itemsOverlap = (item1, item2) => {
-        return item1.start <= item2.end && item2.start <= item1.end;
-    };
-
     const rows = assignLanes(sortedItems);
 
     const getItemPosition = (item) => {
@@ -97,7 +93,7 @@ export function TimelineItem({ item, style, formatDate, styles }) {
         className={styles.timelineItem}
         style={{
             ...style,
-            backgroundColor: item.color || '#3B82F6',
+            backgroundColor: item.color || 'var(--color-primary)',
         }}
         title={`${item.name}: ${formatDate(item.start)} - ${formatDate(item.end)}`}
     >

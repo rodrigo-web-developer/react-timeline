@@ -1,3 +1,12 @@
+/* create variables for colors*/
+:root {
+  --color-background: #f3f4f6;
+  --color-border: #ccc;
+  --color-text: #334e74;
+  --color-primary: #3B82F6;
+  --color-secondary: #6b7280;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -15,4 +24,23 @@ form {
   display: flex;
   overflow-x: auto;
   padding: 12px 0;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type=submit] {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button[type=submit]:hover {
+  filter: brightness(0.95);
 }

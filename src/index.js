@@ -28,17 +28,17 @@ function App() {
       <h2>See the timeline below! {"\u2728"}</h2>
       <h3>{currentItems.length} timeline items to render</h3>
 
-      <button onClick={() => setAddItemOpen(true)}>Add to chaos</button>
+      <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
 
       <div className="horizontal-scroll">
         <Timeline items={currentItems} />
       </div>
 
-      <Modal isOpen={addItemOpen} onClose={() => setAddItemOpen(false)}>
+      <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>
         <form onSubmit={addTimelineItem}>
-          <input type="text" name="name" placeholder="Add a new timeline item" />
-          <input type="date" name="start" placeholder="Add a new timeline item" />
-          <input type="date" name="end" placeholder="Add a new timeline item" />
+          <input required type="text" name="name" maxLength={50} placeholder="Add a new timeline item" />
+          <input required type="date" name="start" placeholder="Add a new timeline item" />
+          <input required type="date" name="end" placeholder="Add a new timeline item" />
           <button type="submit">Add</button>
         </form>
       </Modal>

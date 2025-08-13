@@ -88,6 +88,7 @@ export function TimelineHeader({ items, min, max, totalDays }) {
 
 // TimelineItem component separated for clarity
 export function TimelineItem({ item, style, formatDate, styles }) {
+    
     return (<div
         key={item.id}
         className={styles.timelineItem}

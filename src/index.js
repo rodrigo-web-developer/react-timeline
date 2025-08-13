@@ -5,9 +5,21 @@ import Timeline from "./components/Timeline/";
 import Modal from "./components/Modal/";
 import { Scrollable } from "./components/Layout/index.jsx";
 
+/* I'm crazy about performance, so I need to check if many items on the screen will affect rendering */
+const getItems = (times) => {
+  const items = [];
+  for (let i = 0; i < times; i++) {
+    items.push(...timelineItems.map(e => ({
+      ...e,
+      id: i * 1000 + e.id, // Ensure unique IDs
+    })))
+  }
+  return items;
+}
+
 function App() {
 
-  const [currentItems, setTimelineItems] = React.useState(timelineItems);
+  const [currentItems, setTimelineItems] = React.useState(getItems(10));
   const [addItemOpen, setAddItemOpen] = React.useState(false);
 
   const addTimelineItem = (event) => {

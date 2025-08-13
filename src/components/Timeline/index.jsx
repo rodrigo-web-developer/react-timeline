@@ -1,18 +1,110 @@
-export default function Timeline({ items }) {
-  return (
-    <ul>
-      {items.map((item) => (
-        <TimelineItem key={item.id} item={item} />
-      ))}
-    </ul>
-  );
+import { memo, useCallback, useMemo } from 'react';
+import styles from './index.module.css';
+import { formatDate } from '../../utils';
+import { assignLanes } from '../../assignLanes';
+
+const Timeline = memo(({ items }) => {
+
+    const sortedItems = useMemo(() => {
+        const parsedItems = [...items]
+            .map(e => ({ ...e, start: new Date(e.start), end: new Date(e.end) }));
+        parsedItems.sort((a, b) => a.start.getTime() - b.start.getTime());
+        return parsedItems;
+    }, [items]);
+
+    const minDate = new Date(Math.min(...sortedItems.map(item => item.start.getTime())));
+    const maxDate = new Date(Math.max(...sortedItems.map(item => item.end.getTime())));
+    const totalDays = Math.ceil((maxDate.getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+    const itemsOverlap = (item1, item2) => {
+        return item1.start <= item2.end && item2.start <= item1.end;
+    };
+
+    const rows = assignLanes(sortedItems);
+
+    const getItemPosition = (item) => {
+        const startOffset = Math.ceil((item.start.getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24));
+        const duration = Math.ceil((item.end.getTime() - item.start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        const left = (startOffset / totalDays) * 100;
+        const width = (duration / totalDays) * 100;
+        return {
+            left: `${left}%`,
+            width: `${width}%`,
+        };
+    };
+
+    return (
+        <div className={styles.rowsContainer} style={{
+            minWidth: `${totalDays * 30}px` // put 100px for minimum date width 
+        }}>
+            <TimelineHeader items={items} min={minDate} max={maxDate} totalDays={totalDays} />
+            {rows.map((row, rowIndex) => (
+                <div key={rowIndex} className={styles.row}>
+                    {row.map((item) => {
+                        const position = getItemPosition(item);
+                        return (
+                            <TimelineItem
+                                key={item.id}
+                                item={item}
+                                style={position}
+                                formatDate={formatDate}
+                                styles={styles}
+                            />
+                        );
+                    })}
+                </div>
+            ))}
+        </div>
+    );
+});
+
+export function TimelineHeader({ items, min, max, totalDays }) {
+
+    const generateDateMarkers = useCallback(() => {
+        const markers = [];
+        const current = new Date(min);
+        while (current <= max) {
+            const offset = (current.getTime() - min.getTime()) / (1000 * 60 * 60 * 24);
+            const left = (offset / totalDays) * 100;
+            markers.push(
+                <div
+                    key={current.toISOString()}
+                    className={styles.dateMarker}
+                    style={{ left: `${left}%` }}
+                >
+                    <div className={styles.dateMarkerText}>
+                        {formatDate(current)}
+                    </div>
+                </div>
+            );
+            current.setDate(current.getDate() + Math.max(1, Math.floor(totalDays / 10)));
+        }
+        return markers;
+    }, [items]);
+
+    return (
+        <div className={styles.dateMarkersContainer}>
+            {generateDateMarkers()}
+        </div>
+
+    );
 }
 
-export function TimelineItem({ item }) {
-  return (
-    <li key={item.id}>
-      <h4>{item.start}</h4>
-      <p>{item.end}</p>
-    </li>
-  );
-}
+// TimelineItem component separated for clarity
+export function TimelineItem({ item, style, formatDate, styles }) {
+    return (<div
+        key={item.id}
+        className={styles.timelineItem}
+        style={{
+            ...style,
+            backgroundColor: item.color || '#3B82F6',
+        }}
+        title={`${item.name}: ${formatDate(item.start)} - ${formatDate(item.end)}`}
+    >
+        <div className={styles.itemTitle}>
+            {item.name}
+        </div>
+    </div>)
+};
+
+export default Timeline;

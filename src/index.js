@@ -12,14 +12,15 @@ function App() {
   const addTimelineItem = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    
     const item = {
       id: Date.now(),
       name: formData.get("name"),
       start: formData.get("start"),
       end: formData.get("end"),
     };
-    console.log(item);
-    // setTimelineItems((prevItems) => [...prevItems, item]);
+    
+    setTimelineItems((prevItems) => [...prevItems, item]);
     setAddItemOpen(false);
   };
 

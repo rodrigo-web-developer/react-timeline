@@ -27,7 +27,7 @@
 - Make sure you have [Node.js](https://nodejs.org/) installed.
 - The timeline will render sample items provided in
 
-## Personal process
+## Personal thoughts
 
 To create this components I try to remember some of the components that I already work on, for the instructions defined, I understand that I need to do something like a GANTT Charts (I work with SCRUM and I use a lot of this charts).
 
@@ -39,3 +39,7 @@ Despite the lot of new styles frameworks like Tailwind, styled components, SASS 
 
 ### Hands on
 I like do create components from scratch and think what I can make the component logic without any libraries help. So I do not use moment/dayjs to format date because I think it will make the build bigger than it needs.
+
+### What I thought about the project
+Working on this kind of graphical component was a very challenge for me and I'd love to write it. We always wondering what library will solve our problems when in the end, it's not that hard to make your own component.
+

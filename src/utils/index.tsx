@@ -5,3 +5,13 @@ export const formatDate = (date) => {
         year: 'numeric'
     });
 };
+
+export const getMinDate = (items) => {
+    const dates = items.map(item => new Date(item.start));
+    return new Date(Math.min(...dates));
+};
+
+export const getMaxDate = (items) => {
+    const dates = items.map(item => new Date(item.end));
+    return new Date(Math.max(...dates));
+};

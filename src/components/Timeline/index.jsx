@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo } from 'react';
 import styles from './index.module.css';
-import { formatDate } from '../../utils';
+import { formatDate, getMaxDate, getMinDate } from '../../utils';
 import { assignLanes } from '../../assignLanes';
 
 const Timeline = memo(({ items }) => {
@@ -12,8 +12,8 @@ const Timeline = memo(({ items }) => {
         return parsedItems;
     }, [items]);
 
-    const minDate = new Date(Math.min(...sortedItems.map(item => item.start.getTime())));
-    const maxDate = new Date(Math.max(...sortedItems.map(item => item.end.getTime())));
+    const minDate = getMinDate(sortedItems);
+    const maxDate = getMaxDate(sortedItems);
     const totalDays = Math.ceil((maxDate.getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
     const rows = assignLanes(sortedItems);

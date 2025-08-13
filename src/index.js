@@ -19,8 +19,9 @@ function App() {
       name: formData.get("name"),
       start: formData.get("start"),
       end: formData.get("end"),
+      color: formData.get("color"),
     };
-    
+
     setTimelineItems((prevItems) => [...prevItems, item]);
     setAddItemOpen(false);
   };
@@ -38,9 +39,10 @@ function App() {
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>
         <form onSubmit={addTimelineItem}>
-          <input required type="text" name="name" maxLength={50} placeholder="Add a new timeline item" />
-          <input required type="date" name="start" placeholder="Add a new timeline item" />
-          <input required type="date" name="end" placeholder="Add a new timeline item" />
+          <input required type="text" name="name" maxLength={50} placeholder="Item description" />
+          <input required type="date" name="start" placeholder="Start date" />
+          <input required type="date" name="end" placeholder="End date" />
+          <input required type="color" name="color" placeholder="Item color" />
           <button type="submit">Add</button>
         </form>
       </Modal>

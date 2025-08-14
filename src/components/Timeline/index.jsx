@@ -83,7 +83,6 @@ export function TimelineHeader({ items, min, max, totalDays }) {
         <div className={styles.dateMarkersContainer}>
             {generateDateMarkers()}
         </div>
-
     );
 }
 
@@ -95,8 +94,9 @@ export function TimelineItem({ item, style, formatDate, styles, onChangeName }) 
 
     const handleDoubleClick = useCallback(() => setEditing(true), []);
 
-    const handleBlur = () => {
+    const handleBlur = (e) => {
         setEditing(false);
+        onChangeName(e.target.value);
     };
 
     const handleKeyDown = (e) => {
@@ -132,6 +132,7 @@ export function TimelineItem({ item, style, formatDate, styles, onChangeName }) 
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
                     className={styles.inlineEditInput}
+                    onMouseDown={e => e.stopPropagation()}
                 />
             ) : (
                 <span>{item.name} #{item.id}</span>

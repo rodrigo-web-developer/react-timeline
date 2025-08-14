@@ -58,18 +58,24 @@ function App() {
     );
   };
 
+  const deleteItem = (itemId) => {
+    setTimelineItems((prevItems) =>
+      prevItems.filter((item) => item.id !== itemId)
+    );
+  };
+
   return (
     <div className="app">
       <h2>See the timeline below! {"\u2728"}</h2>
       <h3>{showItems.length} timeline items to render</h3>
 
       <div className="row">
-        <input type="search" onChange={(e) => setFilter(e.target.value)} name="search" placeholder="Search..." />
+        <input autoComplete="off" type="search" onChange={(e) => setFilter(e.target.value)} name="search" placeholder="Search..." />
         <button type="button" onClick={() => setAddItemOpen(true)}>Add to chaos</button>
       </div>
 
       <Scrollable>
-        <Timeline items={showItems} onChangeName={editItemName} />
+        <Timeline items={showItems} onChangeName={editItemName} onDeleteItem={deleteItem} />
       </Scrollable>
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>

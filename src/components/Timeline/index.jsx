@@ -5,6 +5,10 @@ import { assignLanes } from '../../assignLanes';
 
 const Timeline = memo(({ items, onChangeName }) => {
 
+    const [zoomIn, setZoomIn] = useState(0);
+
+    const refTimeLine = useRef();
+
     const sortedItems = useMemo(() => {
         const parsedItems = [...items]
             .map(e => ({ ...e, start: new Date(e.start), end: new Date(e.end) }));
@@ -29,11 +33,39 @@ const Timeline = memo(({ items, onChangeName }) => {
         };
     };
 
-    return (
-        <div className={styles.rowsContainer} style={{
-            minWidth: `${totalDays * 30}px` // put 100px for minimum date width 
-        }}>
-            <TimelineHeader items={items} min={minDate} max={maxDate} totalDays={totalDays} />
+    useEffect(() => {
+        // add simple zoomIn on mouse wheel with shift pressed
+        const handleWheel = (event) => {
+            if (event.shiftKey) {
+                if (event.cancelable) event.preventDefault();
+                event.stopPropagation();
+                setZoomIn((prev) => Math.max(prev + (event.deltaY > 0 ? -1 : 1), 0));
+                //get x where the whell occurs inside timeline component
+                const wheelX = event.clientX - refTimeLine.current.getBoundingClientRect().left;
+                // keeps focus on timeline day
+                const timelineWidth = refTimeLine.current.clientWidth;
+                const percentScroll = (wheelX / timelineWidth);
+                setTimeout(() => {
+                    const newPosition = percentScroll * refTimeLine.current.clientWidth;
+                    refTimeLine.current.parentElement.scrollLeft = newPosition;
+                }, 100);
+            }
+        };
+        refTimeLine.current.addEventListener('wheel', handleWheel);
+        return () => {
+            refTimeLine.current?.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
+
+    return (<>
+
+        <div className={styles.rowsContainer}
+            id="timeline"
+            ref={refTimeLine}
+            style={{
+                minWidth: `${totalDays * (30 * (1 + zoomIn))}px` // put 100px for minimum date width
+            }}>
+            <TimelineHeader zoom={zoomIn} items={items} min={minDate} max={maxDate} totalDays={totalDays} />
             {rows.map((row, rowIndex) => (
                 <div key={rowIndex} className={styles.row}>
                     {row.map((item) => {
@@ -52,10 +84,11 @@ const Timeline = memo(({ items, onChangeName }) => {
                 </div>
             ))}
         </div>
+    </>
     );
 });
 
-export function TimelineHeader({ items, min, max, totalDays }) {
+export function TimelineHeader({ items, min, max, totalDays, zoom }) {
 
     const generateDateMarkers = useCallback(() => {
         const markers = [];
@@ -74,10 +107,10 @@ export function TimelineHeader({ items, min, max, totalDays }) {
                     </div>
                 </div>
             );
-            current.setDate(current.getDate() + Math.max(1, Math.floor(totalDays / 10)));
+            current.setDate(current.getDate() + Math.max(1, Math.floor(totalDays / (10 * (1 + zoom)))));
         }
         return markers;
-    }, [items]);
+    }, [items, zoom]);
 
     return (
         <div className={styles.dateMarkersContainer}>

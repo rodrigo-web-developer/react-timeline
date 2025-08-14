@@ -48,3 +48,13 @@ Working on this kind of graphical component was a very challenge for me and I'd 
 When you have a large number of items in ReactJS, you can do the things in the default mode, because it will renders a lot of items every time, even if you use react.memo, react.useMemo, react.useCallback, those things does not solves the problem that reacts will use a lot of memory to render the parent component (which the list is in).
 
 So if the timeline has a lot of items, the filtering will not be too much affected, but if you go to DevTools and see the memory usage, you will notice a strange use of memory.
+
+There is a trick to do that (it's secret &#129323;), but I would need more time to add this behavior. Maybe later.
+
+### Next steps
+
+- Add deleting icons and confirmation
+- Add zooming
+- Edit date on dragging cards
+- Add item creation when user selects a date on timeline (context menu maybe?)
+- Add animation on drag scrolling

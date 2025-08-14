@@ -59,3 +59,4 @@ There is a trick to do that (it's secret &#129323;), but I would need more time 
 - Add item creation when user selects a date on timeline (context menu maybe?)
 - Add animation on drag scrolling
 - Filter improvement to not spend memory on large number of items
+- Build a library with Rollup and publish to NPM

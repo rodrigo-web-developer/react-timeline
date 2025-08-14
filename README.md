@@ -54,7 +54,8 @@ There is a trick to do that (it's secret &#129323;), but I would need more time 
 ### Next steps
 
 - Add deleting icons and confirmation
-- Add zooming
+- Improve zooming to better fluid component
 - Edit date on dragging cards
 - Add item creation when user selects a date on timeline (context menu maybe?)
 - Add animation on drag scrolling
+- Filter improvement to not spend memory on large number of items

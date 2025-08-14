@@ -80,10 +80,17 @@ function App() {
 
       <Modal isOpen={addItemOpen} title={"New event"} onClose={() => setAddItemOpen(false)}>
         <form onSubmit={addTimelineItem}>
-          <input required type="text" name="name" maxLength={50} placeholder="Item description" />
-          <input required type="date" name="start" placeholder="Start date" />
-          <input required type="date" name="end" placeholder="End date" />
-          <input required type="color" name="color" placeholder="Item color" />
+          <label htmlFor="itemName">Name:</label>
+          <input id="itemName" required type="text" name="name" maxLength={50} placeholder="Item description" />
+
+          <label htmlFor="itemStart">Start:</label>
+          <input id="itemStart" required type="date" name="start" placeholder="Start date" />
+
+          <label htmlFor="itemEnd">End:</label>
+          <input id="itemEnd" required type="date" name="end" placeholder="End date" />
+
+          <label htmlFor="itemColor">Color:</label>
+          <input id="itemColor" required type="color" name="color" placeholder="Item color" />
           <button type="submit">Add</button>
         </form>
       </Modal>

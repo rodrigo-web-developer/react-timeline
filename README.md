@@ -43,3 +43,8 @@ I like do create components from scratch and think what I can make the component
 ### What I thought about the project
 Working on this kind of graphical component was a very challenge for me and I'd love to write it. We always wondering what library will solve our problems when in the end, it's not that hard to make your own component.
 
+### Filtering perfomance solved
+
+When you have a large number of items in ReactJS, you can do the things in the default mode, because it will renders a lot of items every time, even if you use react.memo, react.useMemo, react.useCallback, those things does not solves the problem that reacts will use a lot of memory to render the parent component (which the list is in).
+
+So if the timeline has a lot of items, the filtering will not be too much affected, but if you go to DevTools and see the memory usage, you will notice a strange use of memory.
